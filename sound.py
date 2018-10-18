@@ -40,7 +40,7 @@ def play(data):
 	fs = 44100
 	#data = np.random.uniform(-5, 1, fs)
 	sd.play(data, fs)
-	time.sleep(3)
+	time.sleep(6)
 	sd.stop()
 	return
 
@@ -64,7 +64,13 @@ def main():
 		sound_one = generateSin(number_table[digit][0],amplitude,t,fs)[1]
 		sound_two = generateSin(number_table[digit][1], amplitude, t, fs)[1]
 		sound = sound_one + sound_two
+		plt.plot(sound)
+		plt.xlim(0,500)
+		plt.gca()
+		plt.show()
 		play(sound)
+
+
 
 
 if __name__ == '__main__':
