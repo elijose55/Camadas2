@@ -25,7 +25,7 @@ number_table =	{
 
 amplitude = 1
 fs = 44100
-t = 1
+t = 5
 
 def generateSin(freq, amplitude, time, fs):
 	n = time*fs
@@ -40,7 +40,8 @@ def play(data):
 	fs = 44100
 	#data = np.random.uniform(-5, 1, fs)
 	sd.play(data, fs)
-	time.sleep(6)
+
+	time.sleep(5)
 	sd.stop()
 	return
 

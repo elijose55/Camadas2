@@ -11,7 +11,7 @@ from sound import number_table
 
 sinal = signalMeu()
 
-duration = 2.0
+duration = 3.0
 fs = 44100
 sd.default.samplerate = fs
 sd.default.channels = 2
@@ -20,8 +20,17 @@ numbers = []
 while len(numbers) == 0:
 	print("Procurando por harmônicos...")
 	recording = sd.rec(int(duration * fs), dtype = 'float64')
-	recording = recording[:,0]
 	sd.wait()
+	recording = recording[:,0]
+
+
+	plt.figure()
+	# plt.xlim(0,500)
+	# plt.ylim(-3,3)
+	
+	plt.plot(range(len(recording)),recording)
+	plt.show()
+
 
 
 
@@ -30,20 +39,25 @@ while len(numbers) == 0:
 	# time.sleep(5.0)
 	# sd.stop()
 	# std = np.std()
-	std = 25
+	std = 1
 
 
-	frequencies = sinal.plotFFT(recording,fs)
-	print(frequencies)
+	peak_frequencies = sinal.plotFFT(recording,fs)
+	print(peak_frequencies)
 
 	for e,i in number_table.items():
-		for x in frequencies:
-			if (i[0]-std <= x <= i[0] + std) and (i[1]-std <= x <= i[1] + std):
-				print("é : ",e)
-				numbers.append(e)
+		
+			# print(i[0]-std,i[1]-std)
+			# print("X : ",x)
+		if (i[0]-std <= peak_frequencies[0] <= i[0] + std) and (i[1]-std <= peak_frequencies[1] <= i[1] + std):
+			print("Numero : ",e)
+			numbers.append(e)
 	if len(numbers) == 0:
 		print("Nenhum harmônico encontrado, procurando de novo em 1 segundo.")
 		time.sleep(1)
+	else:
+		print("Harmonicos encontrados, encerrando.")
+		break
 
 
 
