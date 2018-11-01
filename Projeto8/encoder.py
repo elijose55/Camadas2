@@ -34,7 +34,7 @@ def filter(data, samplerate):
 	width = 5.0/nyq_rate
 	ripple_db = 60.0 #dB
 	N , beta = signal.kaiserord(ripple_db, width)
-	cutoff_hz = 5000
+	cutoff_hz = 2000
 	taps = signal.firwin(N, cutoff_hz/nyq_rate, window=('kaiser', beta))
 	filtered_data = signal.lfilter(taps, 1.0, data)
 
@@ -53,8 +53,9 @@ def calcFFT(signal, fs):
 def plotFFT(signal, fs):
     x,y = calcFFT(signal, fs)
     plt.figure()
-    plt.plot(x, np.abs(y))
+    plt.plot(x[20:], np.abs(y)[20:])
     plt.title('Fourier')
+    plt.show()
 
 
 
@@ -104,5 +105,3 @@ plt.plot(tempo,modulated_data)
 plt.title("Modulated data")
 plotFFT(modulated_data, fs)
 plt.show()
-
-
