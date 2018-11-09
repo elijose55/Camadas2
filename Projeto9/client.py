@@ -2,7 +2,7 @@
 import socket
  
 HOST = '127.0.0.1'      # Endereco IP do Servidor
-PORT = 5000             # Porta que o Servidor está
+PORT = 5000            # Porta que o Servidor está
  
 # Criando a conexão
 tcp = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -13,12 +13,13 @@ print('\nDigite suas mensagens')
 print('Para sair use CTRL+X\n')
  
 # Recebendo a mensagem do usuário final pelo teclado
-mensagem = input()
+mensagem = str(input())
+print(mensagem)
+print(mensagem.encode())
  
 # Enviando a mensagem para o Servidor TCP através da conexão
-while mensagem != '\x18':
-    tcp.send(str(mensagem).encode())
-    mensagem = input()
+
+tcp.send(str(mensagem).encode())
  
 # Fechando o Socket
 tcp.close()

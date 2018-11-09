@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from socket import AF_INET, socket, SOCK_STREAM
 from threading import Thread
 
@@ -27,10 +28,12 @@ def accept_incoming_connections():
 	while True:
 		client, client_address = SERVER.accept()
 		print("%s:%s has connected." % client_address)
-		client.send(bytes("Greetings from the cave!"+
-						  "Now type your name and press enter!", "utf8"))  #manda mensagem de welcome para a pessoa que acabou de logar
+		client.send(bytes("Bem vindo" + "Escreva seu nome e pressione ENTER", "utf8"))  #manda mensagem de welcome para a pessoa que acabou de logar
+		print("1")
 		addresses[client] = client_address
+		print("2")
 		Thread(target=handle_client, args=(client,)).start()
+		print("3")
 
 
 
@@ -42,6 +45,7 @@ def broadcast(msg, prefix=""):  # prefix is for name identification.
 			and we do it so that people can see exactly who is the sender
 			of a particular message."""
 		for sock in clients:
+			print("bb")
 			sock.send(bytes(prefix, "utf8")+msg)
 
 
@@ -60,15 +64,18 @@ def handle_client(client):  # Takes client socket as argument.
 
 
 	"""Handles a single client connection."""
-	name = client.recv(BUFSIZ).decode("utf8")
-	welcome = 'Welcome %s! If you ever want to quit, type {quit} to exit.' % name
-	client.send(bytes(welcome, "utf8"))
+	print("4")
+	#name = client.recv(BUFSIZ).decode("utf8")
+	name = str(addresses[client])
+	print("5")
 	msg = "%s has joined the chat!" % name
 	broadcast(bytes(msg, "utf8"))
 	clients[client] = name
 	while True:
-		msg = client.recv(BUFSIZ)
+		msg = client.recv(BUFSIZ) #mensagem a ser enviada
+		
 		if msg != bytes("{quit}", "utf8"):
+			print(msg)
 			broadcast(msg, name+": ")
 		else:
 			client.send(bytes("{quit}", "utf8"))

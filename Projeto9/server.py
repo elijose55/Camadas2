@@ -2,8 +2,8 @@
  
 import socket
  
-HOST = '127.0.0.10'      # Endereco IP do Servidor
-PORT = 2225            # Porta que o Servidor está
+HOST = '127.0.0.1'      # Endereco IP do Servidor
+PORT = 1234          # Porta que o Servidor está
  
 tcp = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 origem = (HOST, PORT)
@@ -26,10 +26,7 @@ while True:
         mensagem = conexao.recv(1024)
         if not mensagem:
             break
- 
-        # Exibindo a mensagem recebida
-        print('\nCliente..:', cliente)
-        print('Mensagem.:', mensagem.decode())
+        print(mensagem.decode(), end=" ")
  
     print('Finalizando conexão do cliente', cliente)
  
