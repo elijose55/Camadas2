@@ -18,9 +18,10 @@ def send(event=None):  # event is passed by binders.
     """Handles sending of messages."""
     msg = my_msg.get()
     my_msg.set("")  # Clears input field.
-    #client_socket2.send(str(msg).encode())
-    client_socket1.send(str(msg).encode())
+    client_socket2.send(str(msg).encode())
+    print(msg)
     if msg == "{quit}":
+        client_socket2.close()
         client_socket2.close()
         top.quit()
 
@@ -65,8 +66,7 @@ else:
 BUFSIZ = 1024
 ADDR = (HOST, PORT)
 
-client_socket1 = socket(AF_INET, SOCK_STREAM)
-client_socket1.connect(ADDR)
+
 
 #############################
 
